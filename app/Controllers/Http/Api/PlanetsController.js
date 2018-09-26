@@ -24,15 +24,15 @@ class PlanetsController extends BaseController {
    * POST planets
    */
   async store ({ request, response }) {
-    let planet = request.only(['name', 'climate', 'terrain'])
+    const planet = request.only(['name', 'climate', 'terrain'])
 
     planet.name = planet.name.toLowerCase()
     planet.name = planet.name.charAt(0).toUpperCase() + planet.name.slice(1)
-    planet.films = []
+    planet.quantity_films = 0
 
     await Swapi.get(`http://swapi.co/api/planets/?search=${planet.name}`).then(result => {
       if (result.results.length) {
-        planet.films = result.results[0].films
+        planet.quantity_films = result.results[0].films.length
       }
     })
 
@@ -47,23 +47,6 @@ class PlanetsController extends BaseController {
    */
   async show ({ request, response, instance }) {
     let planet = instance
-
-    if (planet.films.length) {
-      let films = []
-      
-      await planet.films.map(
-        async (film) => {
-          await Swapi.get(film).then((result) => {
-            console.log(result.title)
-            films.push(result)
-          }).catch((error) => {
-            console.log(error)
-          })
-        }
-      )
-
-      console.log(films)
-    }
     
     return response.apiSuccess(planet)
   }
@@ -73,6 +56,13 @@ class PlanetsController extends BaseController {
    * PUT or PATCH planets/:id
    */
   async update ({ params, request, response }) {
+    const planet = instance
+
+    planet.merge(request.only(['name', 'climate', 'terrain']))
+
+    await planet.save()
+    
+    return response.apiUpdated(planet)
   }
 
   /**
@@ -80,6 +70,11 @@ class PlanetsController extends BaseController {
    * DELETE planets/:id
    */
   async destroy ({ params, request, response }) {
+    const planet = instance
+
+    await planet.delete()
+    
+    return response.apiDeleted()
   }
 }
 
