@@ -14,7 +14,7 @@ class PlanetsController extends BaseController {
    */
   async index ({ request, response, decodeQuery }) {
     const page = 1
-    const planets = await Planet.query().paginate(page)
+    const planets = await Planet.query(decodeQuery()).paginate(page)
 
     return response.apiCollection(planets)
   }
@@ -36,9 +36,9 @@ class PlanetsController extends BaseController {
       }
     })
 
-    await Planet.create(planet)
+    const newPlanet = await Planet.create(planet)
 
-    return response.apiCreated(planet)
+    return response.apiCreated(newPlanet)
   }
 
   /**
