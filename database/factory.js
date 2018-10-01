@@ -20,3 +20,12 @@ Factory.blueprint('App/Models/User', (faker) => {
     password: faker.password()
   }
 })
+
+Factory.blueprint('App/Models/Planet', (faker) => {
+  return {
+    name: faker.street(),
+    climate: faker.name(),
+    terrain: faker.name(),
+    quantity_films: faker.natural({min: 1, max:20})
+  }
+})

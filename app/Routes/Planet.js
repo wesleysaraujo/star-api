@@ -19,6 +19,14 @@ Route.group('planet', () => {
    *     summary: Get Planets
    *     parameters:
    *       - $ref: '#/parameters/ListQuery'
+   *       - name: searchByName
+   *         in: query
+   *         required: false
+   *         explode: true
+   *         description: Search planet by name
+   *         schema:
+   *           type: string
+   *           example: 'Alderan'
    *     responses:
    *       200:
    *         description: Planets
@@ -28,7 +36,7 @@ Route.group('planet', () => {
    *               $ref: '#/definitions/Planet'
    */
     Route.get('/', 'Api/PlanetsController.index')
-
+  
     /**
    * @swagger
    * /planets:

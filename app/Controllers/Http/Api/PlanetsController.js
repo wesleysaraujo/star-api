@@ -13,8 +13,16 @@ class PlanetsController extends BaseController {
    * GET planets
    */
   async index ({ request, response, decodeQuery }) {
+    const searchByName = request.input('searchByName')
     const page = 1
-    const planets = await Planet.query(decodeQuery()).paginate(page)
+
+    let planets = Planet.query(decodeQuery())
+
+    if (searchByName !== undefined) {
+      planets.where({name: {$regex: new RegExp('^' + searchByName , 'i')}})
+    } 
+
+    planets = await planets.paginate(page)
 
     return response.apiCollection(planets)
   }
