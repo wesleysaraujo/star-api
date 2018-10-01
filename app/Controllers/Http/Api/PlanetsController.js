@@ -36,11 +36,11 @@ class PlanetsController extends BaseController {
 
     planet.name = planet.name.toLowerCase()
     planet.name = planet.name.charAt(0).toUpperCase() + planet.name.slice(1)
-    planet.quantity_films = 0
+    planet.quantityFilms = 0
 
     await Swapi.get(`http://swapi.co/api/planets/?search=${planet.name}`).then(result => {
       if (result.results.length) {
-        planet.quantity_films = result.results[0].films.length
+        planet.quantityFilms = result.results[0].films.length
       }
     })
 
@@ -63,7 +63,7 @@ class PlanetsController extends BaseController {
    * Update planet details.
    * PUT or PATCH planets/:id
    */
-  async update ({ params, request, response }) {
+  async update ({ request, response, params, instance, auth }) {
     const planet = instance
 
     planet.merge(request.only(['name', 'climate', 'terrain']))
@@ -77,7 +77,7 @@ class PlanetsController extends BaseController {
    * Delete a planet with id.
    * DELETE planets/:id
    */
-  async destroy ({ params, request, response }) {
+  async destroy ({ request, response, instance, auth }) {
     const planet = instance
 
     await planet.delete()

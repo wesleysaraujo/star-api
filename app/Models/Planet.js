@@ -34,6 +34,8 @@ const Model = use('Model')
  *         properties:
  *           _id:
  *             type: string
+ *           quantityFilms:
+ *             type: number
  */
 class Planet extends Model {
   // timestamp

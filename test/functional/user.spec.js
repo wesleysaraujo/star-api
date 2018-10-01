@@ -64,7 +64,7 @@ let user = null
     const response = await client
       .put(`api/users/${user._id}`)
       .loginVia(otherUser, 'jwt')
-      .send({ locale: 'en' })
+      .send({ name: 'Enzo' })
       .accept('json')
       .end()
     response.assertStatus(403)
@@ -84,13 +84,12 @@ let user = null
     const response = await client
       .put(`api/users/${user._id}`)
       .loginVia(user, 'jwt')
-      .send({ locale: 'vi', name: 'John' })
+      .send({ name: 'John' })
       .accept('json')
       .end()
     response.assertStatus(202)
     assert.equal(response.body.data.email, user.email)
     assert.equal(response.body.data.name, 'John')
-    assert.equal(response.body.data.locale, 'vi')
   })
 }
 

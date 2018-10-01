@@ -58,9 +58,55 @@ Route.group('planet', () => {
    *           $ref: '#/definitions/Planet'
    */
   Route.post('/', 'Api/PlanetsController.store')
+    .middleware(['auth'])
     .validator('StorePlanet')
+  
+    /**
+   * @swagger
+   * /planets/{id}:
+   *   put:
+   *     tags:
+   *       - Planet
+   *     summary: Update Planet
+   *     parameters:
+   *       - name: body
+   *         description: JSON of Planet
+   *         in:  body
+   *         required: true
+   *         schema:
+   *           $ref: '#/definitions/NewPlanet'
+   *     responses:
+   *       200:
+   *         description: Planet
+   *         schema:
+   *           $ref: '#/definitions/Planet'
+   */
+  Route.put('/:id', 'Api/PlanetsController.update')
+    .middleware(['auth'])
+    .instance('App/Models/Planet')
 
   /**
+   * @swagger
+   * /planets/{id}:
+   *   delete:
+   *     tags:
+   *       - Planet
+   *     summary: Returns Planet
+   *     parameters:
+   *       - $ref: '#/parameters/Id'
+   *     responses:
+   *       200:
+   *         description: Planet
+   *         schema:
+   *           $ref: '#/definitions/Planet'
+   *       404:
+   *         $ref: '#/responses/NotFound'
+   */
+  Route.delete('/:id', 'Api/PlanetsController.destroy')
+    .middleware(['auth:jwt'])
+    .instance('App/Models/Planet')
+
+    /**
    * @swagger
    * /planets/{id}:
    *   get:
@@ -79,5 +125,6 @@ Route.group('planet', () => {
    *         $ref: '#/responses/NotFound'
    */
   Route.get('/:id', 'Api/PlanetsController.show')
-    .instance('App/Models/Planet')
+  .instance('App/Models/Planet')
+  
 }).prefix('api/planets')
