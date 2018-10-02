@@ -65,9 +65,7 @@ class AuthController extends BaseController {
       console.log(error)
       throw LoginFailedException.invoke('Invalid email or password')
     }
-    if (!data.user.verified) {
-      throw AccountNotVerifiedException.invoke('Email is not verified')
-    }
+    
     response.apiSuccess(data)
   }
 

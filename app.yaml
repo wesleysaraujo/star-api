@@ -1,0 +1,20 @@
+runtime: nodejs
+env: flex
+
+# This sample incurs costs to run on the App Engine flexible environment.
+# The settings below are to reduce costs during testing and are not appropriate
+# for production use. For more information, see:
+# https://cloud.google.com/appengine/docs/flexible/nodejs/configuring-your-app-with-app-yaml
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+health_check:
+  enable_health_check: False
+env_variables:
+  NODE_ENV: production
+  HOST: 0.0.0.0
+  DB_CONNECTION_STRING: "mongodb://start_planets_wars:jGnBaMH6V7urz6lr@cluster0-shard-00-00-xhzxs.gcp.mongodb.net:27017,cluster0-shard-00-01-xhzxs.gcp.mongodb.net:27017,cluster0-shard-00-02-xhzxs.gcp.mongodb.net:27017/star-planets?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"
+  DB_DATABASE: star-planets
